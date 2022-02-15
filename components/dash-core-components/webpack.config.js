@@ -112,6 +112,7 @@ module.exports = (env, argv) => {
         },
         resolve: {
             alias: {
+                'mathjax.js': 'mathjax-full/components/src/tex-svg/tex-svg.js',
                 'plotly.js': 'plotly.js-dist-min/plotly.min.js'
             }
         },
@@ -139,7 +140,7 @@ module.exports = (env, argv) => {
             new WebpackDashDynamicImport(),
             new webpack.SourceMapDevToolPlugin({
                 filename: '[file].map',
-                exclude: ['async-plotlyjs']
+                exclude: ['async-plotlyjs', 'async-mathjax']
             }),
             new NodePolyfillPlugin()
         ]
