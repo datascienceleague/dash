@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {mergeDeepRight, pick, type} from 'ramda';
 import JsxParser from 'react-jsx-parser';
 import Markdown from 'react-markdown';
+import RemarkMathPlugin from 'remark-math';
 
 import MarkdownHighlighter from '../utils/MarkdownHighlighter';
 import {propTypes, defaultProps} from '../components/Markdown.react';
@@ -131,6 +132,7 @@ export default class DashMarkdown extends Component {
                 <Markdown
                     source={displayText}
                     escapeHtml={!dangerously_allow_html}
+                    plugins={[RemarkMathPlugin]}
                     renderers={{
                         html: props =>
                             props.escapeHtml ? (
