@@ -91,7 +91,7 @@ app.layout = html.Div(children=[
 
     html.H1(children='Apple: $2, Orange: $3'),
 
-    # dcc.Markdown('## This is an <h2> tag with MathJax: $E=mc^2$', mathjax=True),
+    dcc.Markdown('## This is an <h2> tag with MathJax: $E=mc^2$', mathjax=True),
 
     dcc.Graph(
         mathjax=True,

@@ -1,8 +1,8 @@
+import {asyncDecorator} from '@plotly/dash-component-plugins';
 import PropTypes from 'prop-types';
-import React, {Component, lazy, Suspense} from 'react';
+import React, {Component, Suspense} from 'react';
 import markdown from '../utils/LazyLoader/markdown';
-
-const RealDashMarkdown = lazy(markdown);
+import mathjax from '../utils/LazyLoader/mathjax';
 
 // eslint-disable-next-line valid-jsdoc
 /**
@@ -11,6 +11,12 @@ const RealDashMarkdown = lazy(markdown);
  * [react-markdown](https://rexxars.github.io/react-markdown/) under the hood.
  */
 export default class DashMarkdown extends Component {
+    constructor(props) {
+        super(props);
+
+        DashMarkdown._needsMathjax = props.mathjax;
+    }
+
     render() {
         return (
             <Suspense fallback={null}>
@@ -31,6 +37,11 @@ DashMarkdown.propTypes = {
      * Class name of the container element
      */
     className: PropTypes.string,
+
+    /**
+     * If true, loads mathjax v3 (tex-svg) into the page
+     */
+    mathjax: PropTypes.bool,
 
     /**
      * A boolean to control raw HTML escaping.
@@ -91,10 +102,18 @@ DashMarkdown.propTypes = {
 };
 
 DashMarkdown.defaultProps = {
+    mathjax: false,
     dangerously_allow_html: false,
     highlight_config: {},
     dedent: true,
 };
+
+const RealDashMarkdown = asyncDecorator(DashMarkdown, () =>
+    Promise.all([
+        markdown(),
+        DashMarkdown._needsMathjax ? mathjax() : undefined,
+    ]).then(([md]) => md)
+);
 
 export const propTypes = DashMarkdown.propTypes;
 export const defaultProps = DashMarkdown.defaultProps;
