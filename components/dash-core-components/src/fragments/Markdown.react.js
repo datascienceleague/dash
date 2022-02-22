@@ -4,6 +4,7 @@ import JsxParser from 'react-jsx-parser';
 import Markdown from 'react-markdown';
 import RemarkMathPlugin from 'remark-math';
 
+import Math from './Math.react';
 import MarkdownHighlighter from '../utils/MarkdownHighlighter';
 import {propTypes, defaultProps} from '../components/Markdown.react';
 
@@ -134,6 +135,9 @@ export default class DashMarkdown extends Component {
                     escapeHtml={!dangerously_allow_html}
                     plugins={[RemarkMathPlugin]}
                     renderers={{
+                        inlineMath: props => <Math tex={props.value} inline={true} />,
+                        // math: props => <Math tex={props.value} inline={false} />,
+
                         html: props =>
                             props.escapeHtml ? (
                                 props.value
